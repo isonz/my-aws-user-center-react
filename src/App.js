@@ -8,6 +8,7 @@ import { history } from './helpers/history';
 
 
 function App() {
+  console.log(process.env.API_HOST);
   return (
       <Provider store={storeRedux}>
         <Router history={history}>

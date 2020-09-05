@@ -1,17 +1,16 @@
-import config from 'config';
 import { authHeader } from '../helpers/auth-header';
 
 export class UserService {
 
-    login(username, password) {
+    static login(username, password) {
         const requestOptions = {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ username, password })
         };
 
-        return fetch(`${config.apiUrl}/users/authenticate`, requestOptions)
-            .then(handleResponse)
+        return fetch(`${process.env.API_HOST}/users/authenticate`, requestOptions)
+            .then(this.handleResponse)
             .then(user => {
                 // store user details and jwt token in local storage to keep user logged in between page refreshes
                 localStorage.setItem('user', JSON.stringify(user));
@@ -20,66 +19,63 @@ export class UserService {
             });
     }
 
-    logout() {
+    static logout() {
         // remove user from local storage to log user out
         localStorage.removeItem('user');
     }
 
-    getAll() {
+    static getAll() {
         const requestOptions = {
             method: 'GET',
             headers: authHeader()
         };
 
-        return fetch(`${config.apiUrl}/users`, requestOptions).then(handleResponse);
+        return fetch(`${process.env.API_HOST}/users`, requestOptions).then(this.handleResponse);
     }
 
-    getById(id) {
+    static getById(id) {
         const requestOptions = {
             method: 'GET',
             headers: authHeader()
         };
-
-        return fetch(`${config.apiUrl}/users/${id}`, requestOptions).then(handleResponse);
+        return fetch(`${process.env.API_HOST}/users/${id}`, requestOptions).then(this.handleResponse);
     }
 
-    register(user) {
+    static register(user) {
         const requestOptions = {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(user)
         };
-
-        return fetch(`${config.apiUrl}/users/register`, requestOptions).then(handleResponse);
+        return fetch(`${process.env.API_HOST}/users/register`, requestOptions).then(this.handleResponse);
     }
 
-    update(user) {
+    static update(user) {
         const requestOptions = {
             method: 'PUT',
             headers: { ...authHeader(), 'Content-Type': 'application/json' },
             body: JSON.stringify(user)
         };
-
-        return fetch(`${config.apiUrl}/users/${user.id}`, requestOptions).then(handleResponse);;
+        return fetch(`${process.env.API_HOST}/users/${user.id}`, requestOptions).then(this.handleResponse);
     }
 
-    _delete(id) {
+    static _delete(id) {
         const requestOptions = {
             method: 'DELETE',
             headers: authHeader()
         };
 
-        return fetch(`${config.apiUrl}/users/${id}`, requestOptions).then(handleResponse);
+        return fetch(`${process.env.API_HOST}/users/${id}`, requestOptions).then(this.handleResponse);
     }
 
-    handleResponse(response) {
+    static handleResponse(response) {
         return response.text().then(text => {
             const data = text && JSON.parse(text);
             if (!response.ok) {
                 if (response.status === 401) {
                     // auto logout if 401 response returned from api
-                    logout();
-                    location.reload(true);
+                    this.logout();
+                    window.location.reload(true);
                 }
 
                 const error = (data && data.message) || response.statusText;

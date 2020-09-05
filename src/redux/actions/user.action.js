@@ -5,7 +5,7 @@ import { history } from '../../helpers/history';
 
 export class UserActions {
 
-    login(username, password) {
+    static login(username, password) {
         return dispatch => {
             dispatch(request({ username }));
 
@@ -27,12 +27,12 @@ export class UserActions {
         function failure(error) { return { type: userConstants.LOGIN_FAILURE, error } }
     }
 
-    logout() {
+    static logout() {
         UserService.logout();
         return { type: userConstants.LOGOUT };
     }
 
-    register(user) {
+    static register(user) {
         return dispatch => {
             dispatch(request(user));
 
@@ -55,7 +55,7 @@ export class UserActions {
         function failure(error) { return { type: userConstants.REGISTER_FAILURE, error } }
     }
 
-    getAll() {
+    static getAll() {
         return dispatch => {
             dispatch(request());
 
@@ -72,7 +72,7 @@ export class UserActions {
     }
 
     // delete is a reserved word in javascript
-    _delete(id) {
+    static _delete(id) {
         return dispatch => {
             dispatch(request(id));
 
