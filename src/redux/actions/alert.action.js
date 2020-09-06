@@ -2,15 +2,15 @@ import { alertConstant } from '../../constants/alert.constant';
 
 export class AlertActions {
 
-    success(message) {
+    static success(message) {
         return { type: alertConstant.SUCCESS, message };
     }
 
-    error(message) {
+    static error(message) {
         return { type: alertConstant.ERROR, message };
     }
 
-    clear() {
+    static clear() {
         return { type: alertConstant.CLEAR };
     }
 
