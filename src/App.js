@@ -1,38 +1,25 @@
 import React from 'react';
 import './App.css';
-import { storeRedux } from './redux/store.redux';
+import {routes}  from './routers'
+import renderRoutes from './common/renderRoutes'
+import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
-import { history } from './helpers/history';
-import {Router, Route, Switch, Redirect } from 'react-router-dom';
-import { TestPage } from './pages/test.page';
-import {HomePage} from "./pages/home.page";
-import {LoginPage} from "./pages/login.page";
-import {RegisterPage} from "./pages/register.page";
-import { PrivateRoute } from './routers';
+import {storeRedux} from "./redux/store.redux";
+
+
+const authed = false;   // 登陆之后可以利用redux修改该值
+const authPath = '/login';
 
 function App() {
-  console.log(process.env.API_HOST);
+  console.log(process.env.REACT_APP_API_HOST);
   return (
-      <div className="jumbotron">
-          <div className="container">
-              <div className="col-sm-8 col-sm-offset-2">
-                  {alert.message &&
-                  <div className={`alert ${alert.type}`}>{alert.message}</div>
-                  }
-                  <Provider store={storeRedux}>
-                      <Router history={history}>
-                          <Switch>
-                              <Route path="/" component={LoginPage} />
-                              <Route path="/register" component={RegisterPage} />
-                              <Redirect from="*" to="/" />
-                          </Switch>
-                      </Router>
-                  </Provider>
-
-              </div>
-          </div>
-      </div>
+      <Provider store={storeRedux}>
+          <BrowserRouter>
+              {renderRoutes(routes, authed, authPath)}
+          </BrowserRouter>
+      </Provider>
   );
+
 }
 
 export default App;
