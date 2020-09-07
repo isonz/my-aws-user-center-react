@@ -1,15 +1,13 @@
 import {HomePage} from "./pages/home.page";
-import {LoginPage, RegisterPage} from "./pages/auth";
-import {TestPage} from "./pages/test.page";
+import {AuthPage, PasswordPage} from "./pages/auth";
 import {NotFound} from "./pages/not-found.page";
 import {ForbiddenPage} from "./pages/forbidden.page";
 
 
 const routes = [
-    {path:'/', component: TestPage, exact:true},
-    {path:'/home', component: HomePage, exact:true, requiresAuth: true},
-    {path:'/login', component: LoginPage, exact:true},
-    {path:'/register', component: RegisterPage, exact:true},
+    {path:'/', component: HomePage, exact: true, requiresAuth: true},
+    {path:'/auth', component: AuthPage, exact: true},
+    {path:'/auth/password', component: PasswordPage, exact: true},
 
     {path:'/about', component: HomePage,
         childrens:[

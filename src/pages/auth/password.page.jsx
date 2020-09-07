@@ -1,12 +1,13 @@
 import React from 'react';
 
-export class TestPage extends React.Component {
+export class PasswordPage extends React.Component {
 
     render() {
+
         return (
             <div className="col-md-6 col-md-offset-3">
-                <h2>Test</h2>
-                <a href="/login">Login</a>
+                <h2>Password</h2>
+
             </div>
         );
     }
