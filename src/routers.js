@@ -5,9 +5,9 @@ import {ForbiddenPage} from "./pages/forbidden.page";
 
 
 const routes = [
-    {path:'/', component: HomePage, exact: true, requiresAuth: true},
-    {path:'/auth', component: AuthPage, exact: true},
-    {path:'/auth/password', component: PasswordPage, exact: true},
+    {path:'/', component: HomePage, exact: true},
+    {path:'/auth', component: AuthPage, exact: true, requiresAuth: false},
+    {path:'/auth/password', component: PasswordPage, exact: true, requiresAuth: false},
 
     {path:'/about', component: HomePage,
         childrens:[
@@ -16,8 +16,8 @@ const routes = [
         ]
     },
 
-    {path: '/forbidden', component: ForbiddenPage},
-    {path: '*', component: NotFound}
+    {path: '/forbidden', component: ForbiddenPage, requiresAuth: false},
+    {path: '*', component: NotFound, requiresAuth: false}
 ];
 
 export {routes}

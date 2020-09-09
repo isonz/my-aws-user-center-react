@@ -29,7 +29,7 @@ export class PasswordPage extends React.Component {
         this.setState({ submitted: true });
         const { username, email } = this.state;
         if (username && email) {
-            this.props.findPassword(username, email);
+            //this.props.findPassword(username, email);
         }
     }
 

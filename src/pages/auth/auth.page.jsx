@@ -1,8 +1,11 @@
 import React from 'react';
 import './auth.page.css';
 import {Functions} from "../../common/functions";
+import { AuthActions } from '../../redux/actions/auth.action';
+import { connect } from 'react-redux';
+import {AlertActions} from "../../redux/actions/alert.action";
 
-export class AuthPage extends React.Component {
+class AuthPage extends React.Component {
 
     login_username = '';
     login_password = '';
@@ -12,7 +15,6 @@ export class AuthPage extends React.Component {
     reg_re_password = '';
     reg_email = '';
 
-
     constructor(props) {
         super(props);
         this.state = {
@@ -20,15 +22,12 @@ export class AuthPage extends React.Component {
             loginPassword: '',
             loginCheck: true,
             loginSubmitted: false,
-            loginProcess: false,
 
             regUsername: '',
             regPassword: '',
             regRePassword: '',
             regEmail: '',
             regSubmitted: false,
-            regProcess: false,
-
 
             defaultTabChecked: true,
         };
@@ -40,9 +39,11 @@ export class AuthPage extends React.Component {
     }
 
     componentDidMount() {
+        this.props.logout();
         this.setState({
 
         });
+
     }
 
     changeTab(){
@@ -83,7 +84,6 @@ export class AuthPage extends React.Component {
         this.setState({ loginSubmitted: true });
         const { loginUsername, loginPassword } = this.state;
         if (loginUsername && loginPassword) {
-            this.setState({ loginProcess: true });
             this.props.login(loginUsername, loginPassword);
         }
     }
@@ -94,17 +94,17 @@ export class AuthPage extends React.Component {
         this.setState({ regSubmitted: true });
         const { regUsername, regPassword, regRePassword, regEmail} = this.state;
         if (regUsername && regPassword && regRePassword && Functions.checkEmail(regEmail)) {
-            this.props.signUp(regUsername, regPassword, regRePassword, regEmail);
+            this.props.register(regUsername, regPassword, regRePassword, regEmail);
         }
     }
 
     render() {
-        const { loginUsername, loginPassword, loginSubmitted, loginProcess} = this.state;
-        const { regUsername, regPassword, regRePassword, regEmail, regSubmitted, regProcess} = this.state;
+        const { loggingIn, registering, alertMsg, alertType} = this.props;
+        const { loginUsername, loginPassword, loginSubmitted} = this.state;
+        const { regUsername, regPassword, regRePassword, regEmail, regSubmitted} = this.state;
         return (
             <div className="container">
                 <div className="row">
-                    <div className="col-md-6 mx-auto p-0">
                         <div className="card">
                             <div className="login-box">
                                 <div className="login-snip">
@@ -136,8 +136,9 @@ export class AuthPage extends React.Component {
                                                 <div className="group">
                                                     <button type="submit" className={"button" + (loginSubmitted ? ' disable' : '')} value="" onClick={this.handleLoginSubmit} disabled={loginSubmitted}>
                                                         Sign In
-                                                        { loginProcess && <img src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" /> }
+                                                        { loggingIn && <img alt='loading' src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" /> }
                                                     </button>
+                                                    { alertMsg && <div className={`alert ${alertType}`}>{alertMsg}</div> }
                                                 </div>
                                                 <div className="hr"> </div>
                                                 <div className="foot"><a href={"/auth/password"}>Forgot Password?</a></div>
@@ -164,15 +165,16 @@ export class AuthPage extends React.Component {
                                             </div>
                                             <div className="group">
                                                 <label htmlFor="regEmail" className="label">Email Address</label>
-                                                <input id="regEmail" name="regEmail" type="text" className="input" autoComplete="off" placeholder="Enter your email address"  value={regEmail} onChange={this.regHandleChange}/>
+                                                <input id="regEmail" name="regEmail" type="text" className="input" placeholder="Enter your email address"  value={regEmail} onChange={this.regHandleChange}/>
                                                 {regSubmitted && !regEmail && <div className="help-block">Email is required</div> }
                                                 {regEmail.length > 0 && !Functions.checkEmail(regEmail) && <div className="help-block">Please fill in the correct Email</div> }
                                             </div>
                                             <div className="group">
                                                 <button type="submit" className={"reg button" + (regSubmitted ? ' disable' : '')} value="" onClick={this.handleRegSubmit} disabled={regSubmitted}>
                                                     Sign Up
-                                                    { regProcess && <img src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" /> }
+                                                    { registering && <img alt='loading' src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" /> }
                                                 </button>
+                                                { alertMsg && <div className={`alert ${alertType}`}>{alertMsg}</div> }
                                             </div>
                                             <div className="hr reg"> </div>
                                             <div className="foot"><label htmlFor="tab-1">Already Member?</label></div>
@@ -181,9 +183,26 @@ export class AuthPage extends React.Component {
                                 </div>
                             </div>
                         </div>
-                    </div>
                 </div>
             </div>
         );
     }
 }
+
+
+function mapState(state) {
+    const { alertMsg, alertType } = state.alertReducer;
+    const { loggingIn } = state.authenticationReducer;
+    const { registering } = state.registrationReducer;
+    return { alertMsg, alertType, loggingIn, registering };
+}
+
+const actionCreators = {
+    login: AuthActions.login,
+    logout: AuthActions.logout,
+    register: AuthActions.register,
+    clearAlerts: AlertActions.clear()
+};
+
+const connectedAuthPage = connect(mapState, actionCreators)(AuthPage);
+export { connectedAuthPage as AuthPage };

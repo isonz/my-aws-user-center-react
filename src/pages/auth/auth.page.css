@@ -1,6 +1,6 @@
 body {
     margin: 0;
-    padding-top: 100px;
+    padding: 50px 10px 0 10px;
     color: #6a6f8c;
     background: #c8c8c8;
     font: 600 16px/18px 'Open Sans', sans-serif
@@ -203,7 +203,8 @@ a {
 }
 
 .card {
-    width: 500px;
+    width: 100%;
+    max-width: 500px;
     left: 50%;
     margin-left: -250px;
     position: absolute;
@@ -218,3 +219,32 @@ a {
     margin-right: 0;
 }
 .help-block{color: red;}
+.alert{
+    margin-top: 10px;
+    padding: 5px 15px;
+    border: 0;
+    background: rgba(0, 77, 77, .9);
+}
+
+
+@media screen and (max-width: 500px) {
+    body{
+        padding-top: 0 !important;
+        background: rgba(0, 77, 77, .9) !important;
+    }
+    .card{
+        margin: 0;
+        left:0;
+    }
+    .row {
+        margin-right: -25px;
+        margin-left: -25px;
+    }
+    .login-snip .tab.tab-sign-up{
+        margin-left: 70px;
+        margin-right: 0;
+    }
+    .login-snip{
+        padding: 50px 20px;
+    }
+}

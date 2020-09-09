@@ -1,23 +1,37 @@
 import { authHeader } from '../helpers/auth-header';
-import {AuthService} from "./auth.service";
 
-export class UserService {
+export class AuthService {
 
-    static getAll() {
+    static login(username, password) {
         const requestOptions = {
-            method: 'GET',
-            headers: authHeader()
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ username, password })
         };
 
-        return fetch(`${process.env.API_HOST}/users`, requestOptions).then(this.handleResponse);
+        return fetch(`${process.env.REACT_APP_API_HOST}/auth`, requestOptions)
+            .then(this.handleResponse)
+            .then(user => {
+                // store user details and jwt token in local storage to keep user logged in between page refreshes
+                localStorage.setItem('user', JSON.stringify(user));
+
+                return user;
+            });
     }
 
-    static getById(id) {
+    static logout() {
+        // remove user from local storage to log user out
+        localStorage.removeItem('user');
+    }
+
+
+    static register(user) {
         const requestOptions = {
-            method: 'GET',
-            headers: authHeader()
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(user)
         };
-        return fetch(`${process.env.API_HOST}/users/${id}`, requestOptions).then(this.handleResponse);
+        return fetch(`${process.env.API_HOST}/users/register`, requestOptions).then(this.handleResponse);
     }
 
     static update(user) {
@@ -44,7 +58,7 @@ export class UserService {
             if (!response.ok) {
                 if (response.status === 401) {
                     // auto logout if 401 response returned from api
-                    AuthService.logout();
+                    this.logout();
                     window.location.reload(true);
                 }
 
