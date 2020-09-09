@@ -52,7 +52,8 @@ body {
     padding-bottom: 5px;
     margin: 0 15px 10px 0;
     display: inline-block;
-    border-bottom: 2px solid transparent
+    border-bottom: 2px solid transparent;
+    color: #1161ee;
 }
 
 .login-snip .sign-in:checked+.tab,
@@ -96,11 +97,16 @@ body {
 
 .login-space .group .label {
     color: #aaa;
-    font-size: 12px
+    font-size: 12px;
+    text-align: left;
 }
 
 .login-space .group .button {
-    background: #1161ee
+    background: #1161ee;
+    margin-top: 30px;
+}
+.login-space .group .button.disable {
+    background: #999;
 }
 
 .login-space .group label .icon {
@@ -177,7 +183,7 @@ body {
 }
 
 a {
-    color: inherit;
+    color: #1161ee;
     text-decoration: none
 }
 
@@ -187,14 +193,20 @@ a {
     background: rgba(255, 255, 255, .2)
 }
 
+.hr.reg {
+    margin: 30px 0 20px 0;
+}
+
 .foot {
-    text-align: center
+    text-align: center;
+    color: #1161ee;
 }
 
 .card {
     width: 500px;
     left: 50%;
     margin-left: -250px;
+    position: absolute;
 }
 
 ::placeholder {
