@@ -1,6 +1,6 @@
-import { userConstants } from '../../constants/user.constant';
-import { AuthService } from '../../services/auth.service';
-import { AlertActions } from './alert.action';
+import { userConstants } from './auth.constant';
+import { AuthService } from './auth.service';
+import { AlertActions } from '../alert/alert.action';
 import { history } from '../../helpers/history';
 
 export class AuthActions {

@@ -1,9 +1,9 @@
 import React from 'react';
 import './auth.page.css';
-import {Functions} from "../../common/functions";
-import { AuthActions } from '../../redux/actions/auth.action';
+import {Functions} from "../../../common/functions";
+import { AuthActions } from '../auth.action';
 import { connect } from 'react-redux';
-import {AlertActions} from "../../redux/actions/alert.action";
+import {AlertActions} from "../../alert/alert.action";
 
 class AuthPage extends React.Component {
 

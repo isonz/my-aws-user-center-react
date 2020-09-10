@@ -1,5 +1,5 @@
-import { authHeader } from '../helpers/auth-header';
-import {AuthService} from "./auth.service";
+import { authHeader } from '../../helpers/auth-header';
+import {AuthService} from "../auth/auth.service";
 
 export class UserService {
 

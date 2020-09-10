@@ -1,4 +1,4 @@
-import { alertConstant } from '../../constants/alert.constant';
+import { alertConstant } from './alert.constant';
 
 export class AlertActions {
 

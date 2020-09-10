@@ -1,4 +1,4 @@
-import { userConstants } from '../../constants/user.constant';
+import { userConstants } from './user.constant';
 
 export function usersReducer(state = {}, action) {
   switch (action.type) {
