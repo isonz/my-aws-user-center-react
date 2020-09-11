@@ -1,5 +1,5 @@
 import {homeRoutes} from "./components/home/home.routes";
-import {authRoutes} from "./components/auth/auther.routes";
+import {authRoutes} from "./components/auth/auth.routes";
 import {errorRoutes} from "./components/error/error.routes";
 
 const routes = homeRoutes

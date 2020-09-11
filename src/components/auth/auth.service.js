@@ -2,11 +2,11 @@ import { authHeader } from '../../helpers/auth-header';
 
 export class AuthService {
 
-    static login(username, password) {
+    static login(loginUser) {
         const requestOptions = {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ username, password })
+            body: JSON.stringify(loginUser)
         };
 
         return fetch(`${process.env.REACT_APP_API_HOST}/auth`, requestOptions)
@@ -25,13 +25,13 @@ export class AuthService {
     }
 
 
-    static register(user) {
+    static register(regUser) {
         const requestOptions = {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(user)
+            body: JSON.stringify(regUser)
         };
-        return fetch(`${process.env.API_HOST}/users/register`, requestOptions).then(this.handleResponse);
+        return fetch(`${process.env.REACT_APP_API_HOST}/users/register`, requestOptions).then(this.handleResponse);
     }
 
     static update(user) {
@@ -40,7 +40,7 @@ export class AuthService {
             headers: { ...authHeader(), 'Content-Type': 'application/json' },
             body: JSON.stringify(user)
         };
-        return fetch(`${process.env.API_HOST}/users/${user.id}`, requestOptions).then(this.handleResponse);
+        return fetch(`${process.env.REACT_APP_API_HOST}/users/${user.id}`, requestOptions).then(this.handleResponse);
     }
 
     static _delete(id) {
@@ -49,7 +49,7 @@ export class AuthService {
             headers: authHeader()
         };
 
-        return fetch(`${process.env.API_HOST}/users/${id}`, requestOptions).then(this.handleResponse);
+        return fetch(`${process.env.REACT_APP_API_HOST}/users/${id}`, requestOptions).then(this.handleResponse);
     }
 
     static handleResponse(response) {

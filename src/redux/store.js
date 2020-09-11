@@ -1,6 +1,6 @@
 import { createStore, applyMiddleware } from 'redux';
 import { createLogger } from 'redux-logger';
-import rootReducer from './index';
+import rootReducer from './reducer';
 import createSagaMiddleware from 'redux-saga';
 import rootSaga from '../sagas'
 

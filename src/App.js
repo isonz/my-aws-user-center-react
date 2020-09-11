@@ -4,7 +4,7 @@ import {routes}  from './routers'
 import renderRoutes from './helpers/renderRoutes'
 import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
-import {storeRedux} from "./reducers/store";
+import {storeRedux} from "./redux/store";
 
 
 const authed = false;   // 登陆之后可以利用redux修改该值

@@ -84,7 +84,8 @@ class AuthPage extends React.Component {
         this.setState({ loginSubmitted: true });
         const { loginUsername, loginPassword } = this.state;
         if (loginUsername && loginPassword) {
-            this.props.login(loginUsername, loginPassword);
+            const loginUser = {loginUsername, loginPassword};
+            this.props.login(loginUser);
         }
     }
 
@@ -94,7 +95,8 @@ class AuthPage extends React.Component {
         this.setState({ regSubmitted: true });
         const { regUsername, regPassword, regRePassword, regEmail} = this.state;
         if (regUsername && regPassword && regRePassword && Functions.checkEmail(regEmail)) {
-            this.props.register(regUsername, regPassword, regRePassword, regEmail);
+            const regUser = {regUsername, regPassword, regRePassword, regEmail};
+            this.props.register(regUser);
         }
     }
 
@@ -192,8 +194,8 @@ class AuthPage extends React.Component {
 
 function mapState(state) {
     const { alertMsg, alertType } = state.alertReducer;
-    const { loggingIn } = state.authenticationReducer;
-    const { registering } = state.registrationReducer;
+    const { loggingIn } = state.auth;
+    const { registering } = state.register;
     return { alertMsg, alertType, loggingIn, registering };
 }
 
