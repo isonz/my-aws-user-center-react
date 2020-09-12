@@ -1,6 +1,5 @@
 import { authConstants } from './auth.constant';
 import { AuthService } from './auth.service';
-import { AlertActions } from '../alert/alert.action';
 
 export class AuthActions {
 
