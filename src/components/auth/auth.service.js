@@ -35,7 +35,16 @@ export class AuthService {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(regUser)
         };
-        return fetch(`${process.env.REACT_APP_API_HOST}/users/register`, requestOptions).then(this.handleResponse);
+        return fetch(`${process.env.REACT_APP_API_HOST}/auth/register`, requestOptions).then(
+            response => this.handleResponse(response),
+        ).then(
+            user => {
+                localStorage.setItem('user', JSON.stringify(user));
+                return user;
+            }
+        ).catch(
+            error => AlertActions.error(error.toString()),
+        );
     }
 
     static update(user) {
@@ -44,7 +53,16 @@ export class AuthService {
             headers: { ...authHeader(), 'Content-Type': 'application/json' },
             body: JSON.stringify(user)
         };
-        return fetch(`${process.env.REACT_APP_API_HOST}/users/${user.id}`, requestOptions).then(this.handleResponse);
+        return fetch(`${process.env.REACT_APP_API_HOST}/auth/${user.id}`, requestOptions).then(
+            response => this.handleResponse(response),
+        ).then(
+            user => {
+                localStorage.setItem('user', JSON.stringify(user));
+                return user;
+            }
+        ).catch(
+            error => AlertActions.error(error.toString()),
+        );
     }
 
     static _delete(id) {
@@ -53,7 +71,15 @@ export class AuthService {
             headers: authHeader()
         };
 
-        return fetch(`${process.env.REACT_APP_API_HOST}/users/${id}`, requestOptions).then(this.handleResponse);
+        return fetch(`${process.env.REACT_APP_API_HOST}/users/${id}`, requestOptions).then(
+            response => this.handleResponse(response),
+        ).then(
+            user => {
+                localStorage.setItem('user', {});
+            }
+        ).catch(
+            error => AlertActions.error(error.toString()),
+        );
     }
 
     static handleResponse(response) {
