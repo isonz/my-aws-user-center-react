@@ -4,11 +4,15 @@ import { AuthService } from './auth.service';
 export class AuthActions {
 
     static login(loginUser) {
-        return {type: authConstants.LOGIN_REQUEST, loginUser}
+        const { loginUsername, loginPassword} = loginUser;
+        const data = {username:loginUsername, password:loginPassword};
+        return {type: authConstants.LOGIN_REQUEST, data}
     }
 
     static register(regUser) {
-        return { type: authConstants.REGISTER_REQUEST, regUser };
+        const { regUsername, regPassword, regEmail} = regUser;
+        const data = {username:regUsername, password:regPassword, email: regEmail};
+        return { type: authConstants.REGISTER_REQUEST, data };
     }
 
     static logout() {

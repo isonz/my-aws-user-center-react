@@ -10,7 +10,7 @@ export class AuthService {
             body: JSON.stringify(loginUser)
         };
 
-        return fetch(`${process.env.REACT_APP_API_HOST}/auth`, requestOptions).then(
+        return fetch(`${process.env.REACT_APP_API_HOST}${process.env.REACT_APP_API_LOGIN_ENTRANCE}`, requestOptions).then(
             response => this.handleResponse(response),
         ).then(
             user => {
@@ -35,7 +35,7 @@ export class AuthService {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(regUser)
         };
-        return fetch(`${process.env.REACT_APP_API_HOST}/auth/register`, requestOptions).then(
+        return fetch(`${process.env.REACT_APP_API_HOST}${process.env.REACT_APP_API_REGISTER_ENTRANCE}`, requestOptions).then(
             response => this.handleResponse(response),
         ).then(
             user => {
