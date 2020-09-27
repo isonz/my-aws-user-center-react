@@ -40,7 +40,20 @@ export class AuthService {
         return fetch(`${process.env.REACT_APP_API_HOST}${process.env.REACT_APP_API_REGISTER_ENTRANCE}`, requestOptions).then(
             response => this.handleResponse(response),
         ).then(
-            user => {
+            response => {
+                //console.log(user);
+                if('undefined' === typeof response){
+                    AlertActions.error('Response empty');
+                    return null;
+                }
+                if ('undefined' !== typeof response.errorCode){
+                    AlertActions.error(response.message);
+                    return null;
+                }
+                const user = {
+                  id: response.id,
+                  username: response.username,
+                };
                 localStorage.setItem('user', JSON.stringify(user));
                 AlertActions.success('Success!');
                 history.push('/');
@@ -85,36 +98,20 @@ export class AuthService {
         );
     }
 
-    static handleResponse(response) {
-        // console.log(response);
-        // 200 === response.status
-        if (!response.ok) {
-            if (response.status === 401) {
-                this.logout();
-                window.location.reload(true);
+   static handleResponse(response) {
+        return response.text().then(text => {
+            const data = text && JSON.parse(text);
+            if (!response.ok) {
+                if (response.status === 401) {
+                    // auto logout if 401 response returned from api
+                    this.logout();
+                    window.location.reload(true);
+                }
+                const error = (data && data.message) || response.statusText;
+                return Promise.reject(error);
             }
-            const error = response.statusText;
-            AlertActions.error(error);
-            return Promise.reject(error);
-        }
+            return data;
+        });
     }
-
-    // static handleResponse(response) {
-    //     return response.text().then(text => {
-    //         const data = text && JSON.parse(text);
-    //         if (!response.ok) {
-    //             if (response.status === 401) {
-    //                 // auto logout if 401 response returned from api
-    //                 this.logout();
-    //                 window.location.reload(true);
-    //             }
-    //
-    //             const error = (data && data.message) || response.statusText;
-    //             return Promise.reject(error);
-    //         }
-    //
-    //         return data;
-    //     });
-    // }
 }
 
