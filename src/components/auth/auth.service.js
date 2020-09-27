@@ -1,5 +1,6 @@
 import { authHeader } from '../../helpers/auth-header';
 import {AlertActions} from "../alert/alert.action";
+import { history } from '../../helpers/history';
 
 export class AuthService {
 
@@ -16,7 +17,8 @@ export class AuthService {
             user => {
                 // store user details and jwt token in local storage to keep user logged in between page refreshes
                 localStorage.setItem('user', JSON.stringify(user));
-                return user;
+                AlertActions.success('Success!');
+                history.push('/');
             }
         ).catch(
             error => AlertActions.error(error.toString()),
@@ -40,7 +42,8 @@ export class AuthService {
         ).then(
             user => {
                 localStorage.setItem('user', JSON.stringify(user));
-                return user;
+                AlertActions.success('Success!');
+                history.push('/');
             }
         ).catch(
             error => AlertActions.error(error.toString()),
@@ -83,22 +86,17 @@ export class AuthService {
     }
 
     static handleResponse(response) {
-        console.log(response);
-        return response.text().then(text => {
-            const data = text && JSON.parse(text);
-            if (!response.ok) {
-                if (response.status === 401) {
-                    // auto logout if 401 response returned from api
-                    this.logout();
-                    window.location.reload(true);
-                }
-
-                const error = (data && data.message) || response.statusText;
-                return Promise.reject(error);
+        // console.log(response);
+        // 200 === response.status
+        if (!response.ok) {
+            if (response.status === 401) {
+                this.logout();
+                window.location.reload(true);
             }
-
-            return data;
-        });
+            const error = response.statusText;
+            AlertActions.error(error);
+            return Promise.reject(error);
+        }
     }
 
     // static handleResponse(response) {

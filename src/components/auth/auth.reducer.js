@@ -1,6 +1,11 @@
 import { authConstants } from './auth.constant';
 
-let user = JSON.parse(localStorage.getItem('user'));
+let user;
+try {
+  user = JSON.parse(localStorage.getItem('user'));
+}catch (e) {
+  localStorage.removeItem('user');
+}
 const initialState = user ? { loggedIn: true, user } : {};
 
 export function authReducer(state = initialState, action) {
