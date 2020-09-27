@@ -4,8 +4,8 @@ import { AuthService } from './auth.service';
 export class AuthActions {
 
     static login(loginUser) {
-        const { loginUsername, loginPassword} = loginUser;
-        const data = {username:loginUsername, password:loginPassword};
+        const { loginUsername, loginPassword, loginCheck} = loginUser;
+        const data = {username:loginUsername, password:loginPassword, keepSign: loginCheck};
         return {type: authConstants.LOGIN_REQUEST, data}
     }
 

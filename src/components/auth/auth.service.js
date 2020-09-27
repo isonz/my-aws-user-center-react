@@ -2,62 +2,28 @@ import { authHeader } from '../../helpers/auth-header';
 import {AlertActions} from "../alert/alert.action";
 import { history } from '../../helpers/history';
 
+const HEADERS = { 'Content-Type': 'application/json' };
+
 export class AuthService {
 
-    static login(loginUser) {
-        const requestOptions = {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(loginUser)
-        };
-
-        return fetch(`${process.env.REACT_APP_API_HOST}${process.env.REACT_APP_API_LOGIN_ENTRANCE}`, requestOptions).then(
+    static register(regUser) {
+        const requestOptions = { method: 'POST', headers: HEADERS, body: JSON.stringify(regUser)};
+        return fetch(`${process.env.REACT_APP_API_HOST}${process.env.REACT_APP_API_REGISTER_ENTRANCE}`, requestOptions).then(
             response => this.handleResponse(response),
         ).then(
-            user => {
-                // store user details and jwt token in local storage to keep user logged in between page refreshes
-                localStorage.setItem('user', JSON.stringify(user));
-                AlertActions.success('Success!');
-                history.push('/');
-            }
+            response => this.successResponse(response),
         ).catch(
             error => AlertActions.error(error.toString()),
         );
     }
 
-    static logout() {
-        // remove user from local storage to log user out
-        localStorage.removeItem('user');
-    }
-
-
-    static register(regUser) {
-        const requestOptions = {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(regUser)
-        };
-        return fetch(`${process.env.REACT_APP_API_HOST}${process.env.REACT_APP_API_REGISTER_ENTRANCE}`, requestOptions).then(
+    static login(loginUser) {
+        const requestOptions = { method: 'POST', headers: HEADERS, body: JSON.stringify(loginUser)};
+        const { keepSign } = loginUser.data;
+        return fetch(`${process.env.REACT_APP_API_HOST}${process.env.REACT_APP_API_LOGIN_ENTRANCE}`, requestOptions).then(
             response => this.handleResponse(response),
         ).then(
-            response => {
-                //console.log(user);
-                if('undefined' === typeof response){
-                    AlertActions.error('Response empty');
-                    return null;
-                }
-                if ('undefined' !== typeof response.errorCode){
-                    AlertActions.error(response.message);
-                    return null;
-                }
-                const user = {
-                  id: response.id,
-                  username: response.username,
-                };
-                localStorage.setItem('user', JSON.stringify(user));
-                AlertActions.success('Success!');
-                history.push('/');
-            }
+            response => this.successResponse(response, keepSign),
         ).catch(
             error => AlertActions.error(error.toString()),
         );
@@ -81,6 +47,11 @@ export class AuthService {
         );
     }
 
+    static logout() {
+        sessionStorage.removeItem('user');
+        localStorage.removeItem('user');
+    }
+
     static _delete(id) {
         const requestOptions = {
             method: 'DELETE',
@@ -98,7 +69,7 @@ export class AuthService {
         );
     }
 
-   static handleResponse(response) {
+    static handleResponse(response) {
         return response.text().then(text => {
             const data = text && JSON.parse(text);
             if (!response.ok) {
@@ -112,6 +83,32 @@ export class AuthService {
             }
             return data;
         });
+    }
+
+    static successResponse(response, keepSign= false){
+        //console.log(response);
+        if('undefined' === typeof response){
+            AlertActions.error('Response empty');
+            return null;
+        }
+        if ('undefined' !== typeof response.errorCode){
+            AlertActions.error(response.message);
+            return null;
+        }
+
+        const user = {
+            id: response.id,
+            username: response.username,
+        };
+        if( keepSign ){
+            localStorage.setItem('user', JSON.stringify(user));
+        }else{
+            sessionStorage.setItem('user', JSON.stringify(user));
+        }
+        AlertActions.success('Success!');
+        history.push('/');
+
+        return response;
     }
 }
 

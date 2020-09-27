@@ -3,6 +3,7 @@ import './auth.page.css';
 import {Functions} from "../../../common/functions";
 import { AuthActions } from '../auth.action';
 import { connect } from 'react-redux';
+import { Checkbox } from 'antd';
 
 class AuthPage extends React.Component {
 
@@ -56,6 +57,11 @@ class AuthPage extends React.Component {
         this.setState({ [name]: value });
         if('loginUsername' === name) this.login_username = value;
         if('loginPassword' === name) this.login_password = value;
+        if('loginCheck' === name){
+            this.setState({ loginCheck: !this.state.loginCheck });
+            return false;
+        }
+        // console.log(name);
         if(this.login_username.length > 3 && this.login_password.length > 5){
             this.setState({ loginSubmitted: false });
         }else{
@@ -81,9 +87,9 @@ class AuthPage extends React.Component {
         e.preventDefault();
 
         this.setState({ loginSubmitted: true });
-        const { loginUsername, loginPassword } = this.state;
+        const { loginUsername, loginPassword, loginCheck } = this.state;
         if (loginUsername && loginPassword) {
-            const loginUser = {loginUsername, loginPassword};
+            const loginUser = {loginUsername, loginPassword, loginCheck};
             this.props.login(loginUser);
         }
     }
@@ -101,7 +107,7 @@ class AuthPage extends React.Component {
 
     render() {
         const { loggingIn, registering, alertMsg, alertType} = this.props;
-        const { loginUsername, loginPassword, loginSubmitted} = this.state;
+        const { loginUsername, loginPassword, loginSubmitted, loginCheck} = this.state;
         const { regUsername, regPassword, regRePassword, regEmail, regSubmitted} = this.state;
         return (
             <div className="container">
@@ -131,8 +137,13 @@ class AuthPage extends React.Component {
                                                     {loginPassword.length > 0 && loginPassword.length < 6 && <div className="help-block">Minimum length is 6 characters</div> }
                                                 </div>
                                                 <div className="group">
-                                                    <input id="loginCheck" type="checkbox" className="check" checked  onChange={this.loginHandleChange} />
-                                                    <label htmlFor="loginCheck"><span className="icon"> </span> Keep me Signed in</label>
+                                                    <Checkbox
+                                                        id="loginCheck"
+                                                        name="loginCheck"
+                                                        value={loginCheck}
+                                                        checked={loginCheck}
+                                                        onChange={this.loginHandleChange}
+                                                    > Keep me Signed in</Checkbox>
                                                 </div>
                                                 <div className="group">
                                                     <button type="submit" className={"button" + (loginSubmitted ? ' disable' : '')} value="" onClick={this.handleLoginSubmit} disabled={loginSubmitted}>
