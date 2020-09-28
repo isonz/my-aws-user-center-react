@@ -17,7 +17,7 @@ export class HomePage extends React.Component {
             <div>
                 <h1>Hi HOME!</h1>
                 <Link to="/">Test</Link><br/>
-                <Link to="/login">Logout</Link>
+                <Link to="/auth">Logout</Link>
             </div>
         );
     }

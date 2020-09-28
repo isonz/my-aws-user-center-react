@@ -6,6 +6,14 @@ try {
 }catch (e) {
   localStorage.removeItem('user');
 }
+if(!user){
+  try {
+    user = JSON.parse(sessionStorage.getItem('user'));
+  }catch (e) {
+    sessionStorage.removeItem('user');
+  }
+}
+
 const initialState = user ? { loggedIn: true, user } : {};
 
 export function authReducer(state = initialState, action) {
@@ -13,7 +21,7 @@ export function authReducer(state = initialState, action) {
     case authConstants.LOGIN_REQUEST:
       return {
         loggingIn: true,
-        user: action.user
+        user: action.data
       };
     case authConstants.LOGIN_SUCCESS:
       return {

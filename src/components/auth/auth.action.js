@@ -1,5 +1,5 @@
 import { authConstants } from './auth.constant';
-import { AuthService } from './auth.service';
+import { authLogout,authDelete } from './auth.service';
 
 export class AuthActions {
 
@@ -16,7 +16,7 @@ export class AuthActions {
     }
 
     static logout() {
-        AuthService.logout();
+        authLogout();
         return { type: authConstants.LOGOUT };
     }
 
@@ -26,7 +26,7 @@ export class AuthActions {
         return dispatch => {
             dispatch(request(id));
 
-            AuthService.delete(id)
+            authDelete(id)
                 .then(
                     user => dispatch(success(id)),
                     error => dispatch(failure(id, error.toString()))
