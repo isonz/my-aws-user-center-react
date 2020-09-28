@@ -1,4 +1,4 @@
-import { put, call, delay, takeLatest } from 'redux-saga/effects'
+import { put, call, takeLatest } from 'redux-saga/effects'
 import {authConstants} from "./auth.constant";
 import {authLogin, authRegister} from "./auth.service";
 

@@ -1,5 +1,5 @@
 import {HomePage} from './pages/home.page';
 
 export const homeRoutes = [
-    {path:'/', component: HomePage, exact: true},
+    { path: '/main/home', component: HomePage, exact: true },
 ];

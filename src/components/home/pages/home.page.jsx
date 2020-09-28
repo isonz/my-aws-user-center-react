@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-
+import './home.page.css';
 
 export class HomePage extends React.Component {
 
@@ -9,7 +9,6 @@ export class HomePage extends React.Component {
         this.state = {
             loginUsername: '',
         };
-
     }
 
     render() {
