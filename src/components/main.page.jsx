@@ -31,7 +31,7 @@ export class MainPage extends React.Component {
 
 function TopPage(props) {
     return <div>
-        <Link to='/main'>MAIN</Link>
+        <Link to='/'>MAIN</Link>
         <Link to='/main/home'>HOME</Link>
         Hello, {props.name}
     </div>;

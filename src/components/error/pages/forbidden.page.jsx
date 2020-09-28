@@ -4,10 +4,10 @@ export class ForbiddenPage extends React.Component {
 
     render() {
         return (
-            <p>
+            <div>
                 <h2>403</h2><br/>
                 <h5>Forbidden! <br/><br/>Url: {this.props.location.pathname} </h5>
-            </p>
+            </div>
         );
     }
 }

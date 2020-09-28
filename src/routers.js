@@ -2,13 +2,14 @@ import {authRoutes} from "./components/auth/auth.routes";
 import {errorRoutes} from "./components/error/error.routes";
 import {mainRoutes} from "./components/main.routes";
 
+
 const routes = mainRoutes
-    .concat(authRoutes)
-    .concat(errorRoutes);
+.concat(authRoutes)
+.concat(errorRoutes);
 
 export {routes}
 
-console.log(routes);
+//console.log(routes);
 
 
 /**

@@ -11,10 +11,17 @@ const renderRoutes = (routes, authed, authPath = process.env.REACT_APP_LOGIN_ENT
                 strict={route.strict}
                 render={(props) => {
                     if('undefined' === typeof authed) authed = false;
-                    // console.log(authed); console.log(route.requiresAuth); console.log(route.path);
-                    if(!authed && ('undefined' === typeof route.requiresAuth || route.requiresAuth)){
-                        return <Redirect to={{ pathname: authPath, state: { from: props.location } }} />
+                    //console.log(authed); console.log(route.requiresAuth); console.log(route.path);
+                    if(!authed){
+                        if('undefined' === typeof route.requiresAuth || route.requiresAuth){
+                            return <Redirect to={{ pathname: authPath, state: { from: props.location } }} />
+                        }else if(!route.requiresAuth){
+                            return <route.component {...props} {...extraProps} route={route} />;
+                        }
                     }else{
+                        if('' === route.path || '/' === route.path){
+                            return <Redirect to="/main/home" />;
+                        }
                         return <route.component {...props} {...extraProps} route={route} />;
                     }
                 }}
