@@ -1,4 +1,4 @@
 
 export const userRoutes = [
-    {path: '....', component: '', requiresAuth: false}
+    {path: '/main/users', component: '', requiresAuth: false}
 ];

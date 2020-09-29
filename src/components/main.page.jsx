@@ -2,13 +2,14 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { renderRoutes } from 'react-router-config';
 import './main.page.css';
+import {getLocalUser} from "../helpers/local";
 
 export class MainPage extends React.Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            loginUsername: '',
+            user: getLocalUser(),
         };
     }
 
@@ -17,9 +18,9 @@ export class MainPage extends React.Component {
 
         return (
             <div id='main' className='main'>
-                <TopPage/>
+                <TopPage auth={this.state.user}/>
                 <LeftPage/>
-                <div className='main-right'>
+                <div id='main-right'>
                     {renderRoutes(routes, { someProp: "" })}
                 </div>
                 <FooterPage/>
@@ -30,17 +31,33 @@ export class MainPage extends React.Component {
 
 
 function TopPage(props) {
-    return <div>
-        <Link to='/'>MAIN</Link>
-        <Link to='/main/home'>HOME</Link>
-        Hello, {props.name}
+    return <div id='main-top'>
+        <div className='left'>
+
+        </div>
+        <div className='right'>
+            <Link to='/'>{props.auth.user.username}</Link>
+            <Link to='/auth'>Logout</Link>
+        </div>
+
     </div>;
 }
 
 function LeftPage(props) {
-    return <div>Hello, {props.name}</div>;
+    return <div id='main-left'>
+        <div className='content'>
+            <h4><Link to='/'>AWS USER CENTER</Link></h4>
+            <ul>
+                <li><Link to='/main/users'>USERS</Link></li>
+            </ul>
+            <ul className='my'>
+                <li><Link to='/main/my'>MY</Link></li>
+                <li><Link to='/main/setting'>SETTING</Link></li>
+            </ul>
+        </div>
+    </div>;
 }
 
 function FooterPage(props) {
-    return <div>Hello, {props.name}</div>;
+    return <div  id='main-footer'>Copyright © ONION REPUBLIC All Rights Reserved.</div>;
 }

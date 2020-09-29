@@ -1,8 +1,7 @@
 body {
     margin: 0;
-    padding: 50px 10px 0 10px !important;
+    padding: 50px 10px 0 10px;
     color: #6a6f8c;
-    background: #c8c8c8;
     font: 600 16px/18px 'Open Sans', sans-serif
 }
 
@@ -203,6 +202,7 @@ a {
 }
 
 .card {
+    margin-top: 50px;
     width: 100%;
     max-width: 500px;
     left: 50%;

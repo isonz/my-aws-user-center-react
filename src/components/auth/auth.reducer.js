@@ -1,21 +1,7 @@
 import { authConstants } from './auth.constant';
+import {getLocalUser} from "../../helpers/local";
 
-let user;
-try {
-  user = JSON.parse(localStorage.getItem('user'));
-}catch (e) {
-  localStorage.removeItem('user');
-}
-if(!user){
-  try {
-    user = JSON.parse(sessionStorage.getItem('user'));
-  }catch (e) {
-    sessionStorage.removeItem('user');
-  }
-}
-
-const initialState = user ? { loggedIn: true, user } : {};
-
+const initialState = getLocalUser();
 export function authReducer(state = initialState, action) {
   switch (action.type) {
     case authConstants.LOGIN_REQUEST:

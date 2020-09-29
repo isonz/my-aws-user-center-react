@@ -1,4 +1,9 @@
-
+.home-page{}
+.home-content{padding: 50px 0;}
+.home-content a{width: 200px; height: 100px; display: block; float: left; margin-left: 50px; line-height: 100px; text-align: center; border-radius: 10px;}
+.home-content a:first-child{background: #1161ee;}
+.home-content a:nth-child(2){background: green;}
+.home-content a:last-child{background: red;}
 
 @media screen and (max-width: 500px) {
 
