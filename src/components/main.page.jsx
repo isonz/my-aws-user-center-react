@@ -36,7 +36,7 @@ function TopPage(props) {
 
         </div>
         <div className='right'>
-            <Link to='/'>{props.auth.user.username}</Link>
+            <Link to='/main/my'>{props.auth.user.username}</Link>
             <Link to='/auth'>Logout</Link>
         </div>
 

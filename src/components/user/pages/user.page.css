@@ -1,0 +1,38 @@
+
+.table-hover>tbody>tr:hover {
+    background-color: #333;
+}
+.table-hover>tbody>tr>td.delete a{
+    color: red;
+}
+.pagination{
+    margin: 50px auto;
+}
+.pagination>li>a, .pagination>li>span{
+    background-color: transparent;
+}
+.pagination>.active>a,
+.pagination>.active>a:focus,
+.pagination>.active>a:hover,
+.pagination>.active>span,
+.pagination>.active>span:focus,
+.pagination>.active>span:hover{
+  border-color: #ddd;
+}
+
+.user-page{
+    position: relative;
+}
+#netMsg{
+    position: fixed;
+    top: 60px;
+    right: 10px;
+    z-index: 10;
+}
+
+
+
+
+@media screen and (max-width: 500px) {
+
+}

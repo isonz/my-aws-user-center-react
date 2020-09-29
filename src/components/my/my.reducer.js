@@ -1,16 +1,16 @@
 import { userConstants } from './user.constant';
 
-export function usersReducer(state = {}, action) {
+export function myReducer(state = {}, action) {
   switch (action.type) {
-    case userConstants.GET_ALL_REQUEST:
+    case userConstants.GETALL_REQUEST:
       return {
         loading: true
       };
-    case userConstants.GET_ALL_SUCCESS:
+    case userConstants.GETALL_SUCCESS:
       return {
         items: action.users
       };
-    case userConstants.GET_ALL_FAILURE:
+    case userConstants.GETALL_FAILURE:
       return {
         error: action.error
       };
@@ -19,7 +19,9 @@ export function usersReducer(state = {}, action) {
       return {
         ...state,
         items: state.items.map(user =>
-          user.id === action.id ? { ...user, deleting: true } : user
+          user.id === action.id
+            ? { ...user, deleting: true }
+            : user
         )
       };
     case userConstants.DELETE_SUCCESS:
@@ -38,6 +40,7 @@ export function usersReducer(state = {}, action) {
             // return copy of user with 'deleteError:[error]' property
             return { ...userCopy, deleteError: action.error };
           }
+
           return user;
         })
       };
