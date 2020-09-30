@@ -16,6 +16,8 @@ export function* userGetAllSaga(paging) {
         if(users){
             // AlertActions.success('Success');
             yield put({ type: userConstants.GET_ALL_SUCCESS, users });
+        }else{
+            yield put({ type: userConstants.GET_ALL_FAILURE });
         }
     } catch(error) {
         AlertActions.error(error.toString());

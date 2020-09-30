@@ -3,9 +3,9 @@ import { userConstants } from './user.constant';
 
 export class UserActions {
 
-    static getAll(pageNumber, pageSize) {
+    static getAll(lastId, pageSize) {
         //console.log(pageNumber, pageSize);
-        return {type: userConstants.GET_ALL_REQUEST, pageNumber, pageSize}
+        return {type: userConstants.GET_ALL_REQUEST, lastId, pageSize}
     }
 
     static _delete(id) {

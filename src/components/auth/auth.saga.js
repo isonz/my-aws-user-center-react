@@ -11,8 +11,12 @@ export function* authLoginSaga(loginUser) {
     //yield delay(1000);
     try {
         const user = yield call( authLogin, loginUser);
-        // console.log(user);
-        if(user) yield put({ type: authConstants.LOGIN_SUCCESS, user });
+        //console.log(user);
+        if(user){
+            yield put({ type: authConstants.LOGIN_SUCCESS, user });
+        }else{
+            yield put({ type: authConstants.LOGIN_FAILURE });
+        }
     } catch(error) {
         yield put({ type: authConstants.LOGIN_FAILURE, error });
     }

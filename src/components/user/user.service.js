@@ -6,7 +6,7 @@ export function userGetAll(paging) {
         method: 'GET',
         headers: authHeader(),
     };
-    return fetch(`${process.env.REACT_APP_API_HOST}${process.env.REACT_APP_API_GET_ALL_USERS}?pageNumber=${paging.pageNumber}&pageSize=${paging.pageSize}`, requestOptions).then(handleResponse);
+    return fetch(`${process.env.REACT_APP_API_HOST}${process.env.REACT_APP_API_GET_ALL_USERS}?lastId=${paging.lastId}&pageSize=${paging.pageSize}`, requestOptions).then(handleResponse);
 }
 
 export function userDelete(id) {

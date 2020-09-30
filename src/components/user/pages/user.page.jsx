@@ -1,4 +1,5 @@
 import React from 'react';
+import moment from 'moment';
 import { Link } from 'react-router-dom';
 import './user.page.css';
 import {connect} from "react-redux";
@@ -9,18 +10,19 @@ class UserPage extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            user: {},
+            items: {},
+            users: [],
         };
     }
 
     componentDidMount() {
-        this.props.getAll(1, 10);
+        this.props.getAll('', 2);
         this.setState({
         });
     }
 
     render() {
-        const { loading, alertMsg, alertType} = this.props;
+        const { loading, alertMsg, alertType, items} = this.props;
         return (
             <div className='user-page'>
                 <div id='netMsg'>
@@ -40,15 +42,15 @@ class UserPage extends React.Component {
                     </tr>
                     </thead>
                     <tbody>
-
-                    <tr>
-                        <td>Tanmay</td>
-                        <td>Bangalore</td>
-                        <td>560001</td>
-                        <td>560001</td>
+                    {'undefined' !== typeof items && 'undefined' !== typeof items.Items && items.Items && items.Items.map( (user, index) =>
+                    <tr key={index}>
+                        <td>{user.id}</td>
+                        <td>{user.username}</td>
+                        <td>{user.email}</td>
+                        <td>{moment(user.createdAt).format("yyyy-MM-DD: HH:mm:ss")}</td>
                         <td className='delete'><Link to='/main/users/delete/:id'>DELETE</Link></td>
                     </tr>
-
+                    )}
                     </tbody>
                 </table>
 
@@ -68,8 +70,8 @@ class UserPage extends React.Component {
 
 function mapState(state) {
     const { alertMsg, alertType } = state.alertReducer;
-    const { loading } = state.usersReducer;
-    return { alertMsg, alertType, loading };
+    const { loading, items} = state.usersReducer;
+    return { alertMsg, alertType, loading, items };
 }
 
 const actionCreators = {

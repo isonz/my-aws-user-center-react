@@ -1,3 +1,5 @@
+const moment = require('moment');
+
 export class Functions {
 
     // 生成随机数字 getRandomNum(1, 10)
@@ -35,4 +37,8 @@ export class Functions {
         return reg.test(email);
     }
 
+    // 获取当前标准时间
+    static getNow(): Date {
+        return moment().format('YYYY-MM-DD HH:mm:ss');
+    }
 }
