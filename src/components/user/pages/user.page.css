@@ -29,7 +29,9 @@
     right: 10px;
     z-index: 10;
 }
-
+.pager li>a, .pager li>span{
+    background-color: #1161ee;
+}
 
 
 

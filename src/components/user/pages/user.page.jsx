@@ -7,22 +7,60 @@ import {UserActions} from "../user.action";
 
 class UserPage extends React.Component {
 
+    pageSize = 2;
+    prevId = {};
+    lastId = {};
+    tmpId = {};
+    pageList = [];
+    op = 'next';
+    currentPage = 0;
+
     constructor(props) {
         super(props);
         this.state = {
             items: {},
             users: [],
         };
+        this.previousPage = this.previousPage.bind(this);
+        this.nextPage = this.nextPage.bind(this);
     }
 
     componentDidMount() {
-        this.props.getAll('', 2);
-        this.setState({
-        });
+        this.props.getAll('', this.pageSize);
+    }
+
+    previousPage(){
+        this.op = 'prev';
+        if(this.currentPage > 1) {
+            let prevId = this.pageList[this.currentPage - 2];
+            this.props.getAll(prevId.data.lastId.id, this.pageSize);
+        }else{
+            this.props.getAll('', this.pageSize);
+        }
+        this.currentPage--;
+    }
+
+    nextPage(){
+        this.op = 'next';
+        this.props.getAll(this.lastId.id, this.pageSize);
+        this.currentPage ++;
     }
 
     render() {
         const { loading, alertMsg, alertType, items} = this.props;
+
+        const lastId = 'undefined' === typeof items ? {} : items.LastEvaluatedKey;
+        if(this.op === 'next'){
+            if(JSON.stringify(lastId) !== "{}" && this.lastId.id !== lastId.id){
+                this.prevId = this.tmpId;
+                this.tmpId = this.lastId;
+                this.lastId = lastId;
+                this.pageList.push({currentPage: this.currentPage, data: {prevId: this.prevId, lastId: lastId}});
+            }
+        }
+        // console.log(lastId);
+        // console.log(this.pageList);
+
         return (
             <div className='user-page'>
                 <div id='netMsg'>
@@ -54,13 +92,9 @@ class UserPage extends React.Component {
                     </tbody>
                 </table>
 
-                <ul className="pagination pagination-lg">
-                    <li><Link to='/'>&laquo;</Link></li>
-                    <li className="active"><Link to='/'>1</Link></li>
-                    <li><Link to='/'>3</Link></li>
-                    <li><Link to='/'>4</Link></li>
-                    <li><Link to='/'>5</Link></li>
-                    <li><Link to='/'>&raquo;</Link></li>
+                <ul className="pager pager-lg">
+                    <li className={this.currentPage < 1 ? 'previous disabled' : 'previous'}><a href='##' onClick={this.currentPage < 1 ? null : this.previousPage}>&larr; Older</a></li>
+                    <li className={JSON.stringify(lastId) === "{}" ? 'next disabled' : 'next'}><a href='##' onClick={JSON.stringify(lastId) === "{}" ? null : this.nextPage}>Newer &rarr;</a></li>
                 </ul>
 
             </div>
