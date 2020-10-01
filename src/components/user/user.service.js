@@ -1,5 +1,6 @@
 import { authHeader } from '../../helpers/auth-header';
 import { handleResponse } from '../../helpers/headler';
+import {AlertActions} from "../alert/alert.action";
 
 export function userGetAll(paging) {
     const requestOptions = {
@@ -14,7 +15,12 @@ export function userDelete(id) {
         method: 'DELETE',
         headers: authHeader()
     };
-    return fetch(`${process.env.REACT_APP_API_HOST}${process.env.REACT_APP_API_GET_ALL_USERS}/${id}`, requestOptions).then(handleResponse);
+    return fetch(`${process.env.REACT_APP_API_HOST}${process.env.REACT_APP_API_USER_ACTION}/${id}`, requestOptions).then(handleResponse).then(
+        response => window.location.reload(true),
+    ).catch(
+        window.location.reload(true),
+        error => AlertActions.error(error.toString()),
+    );
 }
 
 export function userGetById(id) {

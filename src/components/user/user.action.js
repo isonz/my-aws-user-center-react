@@ -9,7 +9,7 @@ export class UserActions {
     }
 
     static _delete(id) {
-        return {type: userConstants.GET_ALL_REQUEST, id}
+        return {type: userConstants.DELETE_REQUEST, id}
     }
 }
 

@@ -25,9 +25,9 @@ export function* userGetAllSaga(paging) {
     }
 }
 
-export function* userDeleteSaga(userId) {
+export function* userDeleteSaga(user) {
     try {
-        const rs = yield call(userDelete, userId);
+        const rs = yield call(userDelete, user.id);
         yield put({ type: userConstants.DELETE_SUCCESS, rs });
     } catch(error) {
         yield put({ type: userConstants.DELETE_FAILURE, error });

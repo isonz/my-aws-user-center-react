@@ -1,13 +1,12 @@
 import React from 'react';
 import moment from 'moment';
-import { Link } from 'react-router-dom';
 import './user.page.css';
 import {connect} from "react-redux";
 import {UserActions} from "../user.action";
 
 class UserPage extends React.Component {
 
-    pageSize = 2;
+    pageSize = 5;
     prevId = {};
     lastId = {};
     tmpId = {};
@@ -22,6 +21,7 @@ class UserPage extends React.Component {
         };
         this.previousPage = this.previousPage.bind(this);
         this.nextPage = this.nextPage.bind(this);
+        this._delete = this._delete.bind(this);
     }
 
     componentDidMount() {
@@ -42,6 +42,11 @@ class UserPage extends React.Component {
         this.props.getAll(this.lastId.id, this.pageSize);
         this.pageList.push({prevId: this.prevId, lastId: this.lastId});
         this.currentPage ++;
+    }
+
+    _delete(e, id){
+        e.preventDefault();
+        return this.props._delete(id);
     }
 
     render() {
@@ -81,7 +86,7 @@ class UserPage extends React.Component {
                         <td>{user.username}</td>
                         <td>{user.email}</td>
                         <td>{moment(user.createdAt).format("yyyy-MM-DD: HH:mm:ss")}</td>
-                        <td className='delete'><Link to='/main/users/delete/:id'>DELETE</Link></td>
+                        <td className='delete'><a href="##" onClick={e => {this._delete(e, user.id)}}>DELETE</a></td>
                     </tr>
                     )}
                     </tbody>
