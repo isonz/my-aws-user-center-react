@@ -12,7 +12,6 @@ class UserPage extends React.Component {
     lastId = {};
     tmpId = {};
     pageList = [];
-    op = 'next';
     currentPage = 0;
 
     constructor(props) {
@@ -30,10 +29,9 @@ class UserPage extends React.Component {
     }
 
     previousPage(){
-        this.op = 'prev';
         if(this.currentPage > 1) {
             let prevId = this.pageList[this.currentPage - 2];
-            this.props.getAll(prevId.data.lastId.id, this.pageSize);
+            this.props.getAll(prevId.lastId.id, this.pageSize);
         }else{
             this.props.getAll('', this.pageSize);
         }
@@ -41,8 +39,8 @@ class UserPage extends React.Component {
     }
 
     nextPage(){
-        this.op = 'next';
         this.props.getAll(this.lastId.id, this.pageSize);
+        this.pageList.push({prevId: this.prevId, lastId: this.lastId});
         this.currentPage ++;
     }
 
@@ -50,13 +48,10 @@ class UserPage extends React.Component {
         const { loading, alertMsg, alertType, items} = this.props;
 
         const lastId = 'undefined' === typeof items ? {} : items.LastEvaluatedKey;
-        if(this.op === 'next'){
-            if(JSON.stringify(lastId) !== "{}" && this.lastId.id !== lastId.id){
-                this.prevId = this.tmpId;
-                this.tmpId = this.lastId;
-                this.lastId = lastId;
-                this.pageList.push({currentPage: this.currentPage, data: {prevId: this.prevId, lastId: lastId}});
-            }
+        if(JSON.stringify(lastId) !== "{}" && this.lastId.id !== lastId.id){
+            this.prevId = this.tmpId;
+            this.tmpId = this.lastId;
+            this.lastId = lastId;
         }
         // console.log(lastId);
         // console.log(this.pageList);
