@@ -1,13 +1,12 @@
 import { myConstants } from './my.constant';
 
-
 export class MyActions {
 
-    static myInfo(id) {
-        return {type: myConstants.GET_REQUEST, id}
+    static myInfo() {
+        return {type: myConstants.GET_REQUEST}
     }
 
-    static myUpdate(id) {
-        return {type: myConstants.UPDATE_REQUEST, id}
+    static myUpdate() {
+        return {type: myConstants.UPDATE_REQUEST}
     }
 }

@@ -11,7 +11,7 @@ export class AuthActions {
 
     static register(regUser) {
         const { regUsername, regPassword, regEmail} = regUser;
-        const data = {username:regUsername, password:regPassword, email: regEmail};
+        const data = {username:regUsername, password:regPassword, email: regEmail, avatar:''};
         return { type: authConstants.REGISTER_REQUEST, data };
     }
 

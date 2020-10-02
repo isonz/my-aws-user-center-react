@@ -71,14 +71,10 @@ export function authSuccessResponse(response, keepSign= false){
         return null;
     }
 
-    const user = {
-        id: response.id,
-        username: response.username,
-    };
     if( keepSign ){
-        localStorage.setItem('user', JSON.stringify(user));
+        localStorage.setItem('user', JSON.stringify(response));
     }else{
-        sessionStorage.setItem('user', JSON.stringify(user));
+        sessionStorage.setItem('user', JSON.stringify(response));
     }
     AlertActions.success('Success!');
     history.push('/');
