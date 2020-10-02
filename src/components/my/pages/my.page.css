@@ -1,4 +1,12 @@
-
+.my-page{
+    position: relative;
+}
+#netMsg{
+    position: fixed;
+    top: 60px;
+    right: 10px;
+    z-index: 10;
+}
 
 @media screen and (max-width: 500px) {
 

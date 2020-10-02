@@ -6,14 +6,14 @@ export function myInfo() {
         method: 'GET',
         headers: authHeader()
     };
-    return fetch(`${process.env.API_HOST}/users/${id}`, requestOptions).then(handleResponse);
+    return fetch(`${process.env.REACT_APP_API_HOST}${process.env.REACT_APP_API_MY_ACTION}`, requestOptions).then(handleResponse);
 }
 
-export function myUpdate() {
+export function myUpdate(user) {
     const requestOptions = {
         method: 'PUT',
         headers: { ...authHeader(), 'Content-Type': 'application/json' },
         body: JSON.stringify(user)
     };
-    return fetch(`${process.env.API_HOST}/users/${id}`, requestOptions).then(handleResponse);
+    return fetch(`${process.env.REACT_APP_API_HOST}${process.env.REACT_APP_API_MY_ACTION}`, requestOptions).then(handleResponse);
 }

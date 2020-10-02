@@ -8,7 +8,7 @@ export function myReducer(state = {}, action) {
       };
     case myConstants.GET_SUCCESS:
       return {
-        items: action.users
+        item: action.users
       };
     case myConstants.GET_FAILURE:
       return {

@@ -18,8 +18,14 @@ class MyPage extends React.Component {
     }
 
     render() {
+        const { alertMsg, alertType, loading, item, updating } = this.props;
+
         return (
             <div className='my-page'>
+                <div id='netMsg'>
+                    { alertMsg && <span className={`alert ${alertType}`}>{alertMsg}</span> }
+                    { loading && <img src='/images/loading.gif' alt='loading' /> }
+                </div>
 
                 <h1>{this.state.user.user.username}</h1>
 
@@ -32,7 +38,7 @@ class MyPage extends React.Component {
 
                     <div className="form-group">
                         <label htmlFor="name">E-mail</label>
-                        <input type="text" className="form-control" id="email" name='email' placeholder="E-mail" />
+                        <input type="text" className="form-control" id="email" name='email' placeholder="E-mail" value={item?.email} />
                     </div>
 
 
@@ -46,8 +52,8 @@ class MyPage extends React.Component {
 
 function mapState(state) {
     const { alertMsg, alertType } = state.alertReducer;
-    const { loading, items, updating} = state.myReducer;
-    return { alertMsg, alertType, loading, items, updating };
+    const { loading, item, updating} = state.myReducer;
+    return { alertMsg, alertType, loading, item, updating };
 }
 
 const actionCreators = {
