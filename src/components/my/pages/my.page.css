@@ -7,6 +7,30 @@
     right: 10px;
     z-index: 10;
 }
+.form-group{
+    margin: 50px 0;
+}
+#avatar_show{
+    height: 100px;
+    width: 100px;
+    border: 1px #fff solid;
+    border-radius: 50%;
+}
+
+.ant-avatar-group{
+    position: relative;
+}
+.ant-avatar-group p{
+    font-size: 10px;
+}
+#avatar{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100px;
+    height: 100px;
+    opacity: 0;
+}
 
 @media screen and (max-width: 500px) {
 

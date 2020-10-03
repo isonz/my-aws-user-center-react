@@ -10,11 +10,30 @@ class MyPage extends React.Component {
         super(props);
         this.state = {
             user: getLocalUser(),
+            email : '',
+            avatar: '',
         };
+        this.onBlurHandle = this.onBlurHandle.bind(this);
+        this.onChangeHandle = this.onChangeHandle.bind(this);
     }
 
     componentDidMount() {
         this.props.myInfo();
+    }
+
+    onChangeHandle(e) {
+        const { name, value } = e.target;
+        this.setState({ [name]: value });
+        //if('regEmail' === name) this.reg_email = value;
+        this.props.item.email = value;
+        console.log(this.props.item);
+    }
+
+    onBlurHandle(e) {
+        const { name, value } = e.target;
+        console.log(name, value);
+        this.setState({ [name]: value });
+
     }
 
     render() {
@@ -28,21 +47,21 @@ class MyPage extends React.Component {
                 </div>
 
                 <h1>{this.state.user.user.username}</h1>
+                <p>ID: {this.state.user.user.id}</p>
 
                 <form>
 
-                    <div className="form-group">
-                        <label htmlFor="avatar">Avatar</label>
+                    <div className="form-group ant-avatar-group">
+                        <img id='avatar_show' src='' alt='avatar' />
                         <input type="file" id="avatar" />
+                        <p>Click me to modify</p>
                     </div>
 
                     <div className="form-group">
                         <label htmlFor="name">E-mail</label>
-                        <input type="text" className="form-control" id="email" name='email' placeholder="E-mail" value={item?.email} />
+                        <input type="text" className="form-control" id="email" name='email' placeholder="E-mail" value={item?.email || ''} onBlur={this.onBlurHandle} onChange={this.onChangeHandle} />
                     </div>
 
-
-                    <button type="submit" className="btn btn-primary">Submit</button>
                 </form>
 
             </div>
