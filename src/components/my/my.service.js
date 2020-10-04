@@ -9,11 +9,12 @@ export function myInfo() {
     return fetch(`${process.env.REACT_APP_API_HOST}${process.env.REACT_APP_API_MY_ACTION}`, requestOptions).then(handleResponse);
 }
 
-export function myUpdate(user) {
+export function myUpdate(data) {
     const requestOptions = {
         method: 'PUT',
         headers: { ...authHeader(), 'Content-Type': 'application/json' },
-        body: JSON.stringify(user)
+        body: JSON.stringify(data)
     };
+    console.log(requestOptions);
     return fetch(`${process.env.REACT_APP_API_HOST}${process.env.REACT_APP_API_MY_ACTION}`, requestOptions).then(handleResponse);
 }

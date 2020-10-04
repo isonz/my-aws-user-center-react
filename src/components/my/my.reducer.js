@@ -26,14 +26,17 @@ export function myReducer(state = {}, action) {
       //   )
       // };
       return {
-        updating: true
+        updating: true,
+        item: action.users
       };
     case myConstants.UPDATE_SUCCESS:
       // remove deleted user from state
       // return {
       //   items: state.items.filter(user => user.id !== action.id)
       // };
-      return {};
+      return {
+        item: action.users
+      };
     case myConstants.UPDATE_FAILURE:
       // remove 'deleting:true' property and add 'deleteError:[error]' property to user
       // return {

@@ -25,10 +25,10 @@ export function* myInfoSaga() {
     }
 }
 
-export function* myUpdateSaga(user) {
+export function* myUpdateSaga(data) {
     try {
-        const rs = yield call(myUpdate, user.id);
-        yield put({ type: myConstants.UPDATE_SUCCESS, rs });
+        const users = yield call(myUpdate, data.item);
+        yield put({ type: myConstants.UPDATE_SUCCESS, users });
     } catch(error) {
         yield put({ type: myConstants.UPDATE_FAILURE, error });
     }

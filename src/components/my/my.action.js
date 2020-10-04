@@ -6,7 +6,7 @@ export class MyActions {
         return {type: myConstants.GET_REQUEST}
     }
 
-    static myUpdate() {
-        return {type: myConstants.UPDATE_REQUEST}
+    static myUpdate(item) {
+        return {type: myConstants.UPDATE_REQUEST, item}
     }
 }

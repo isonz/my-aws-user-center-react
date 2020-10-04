@@ -24,16 +24,20 @@ class MyPage extends React.Component {
     onChangeHandle(e) {
         const { name, value } = e.target;
         this.setState({ [name]: value });
-        //if('regEmail' === name) this.reg_email = value;
-        this.props.item.email = value;
-        console.log(this.props.item);
+        if('email' === name){
+            this.props.item.email = value;
+        }
+        if('avatar' === name){
+            this.props.item.avatar = value;
+        }
+        //console.log(this.props.item);
     }
 
     onBlurHandle(e) {
         const { name, value } = e.target;
-        console.log(name, value);
+        // console.log(name, value);
         this.setState({ [name]: value });
-
+        this.props.myUpdate({[name]: value });
     }
 
     render() {
@@ -43,7 +47,7 @@ class MyPage extends React.Component {
             <div className='my-page'>
                 <div id='netMsg'>
                     { alertMsg && <span className={`alert ${alertType}`}>{alertMsg}</span> }
-                    { loading && <img src='/images/loading.gif' alt='loading' /> }
+                    { (updating || loading) && <img src='/images/loading.gif' alt='loading' /> }
                 </div>
 
                 <h1>{this.state.user.user.username}</h1>
@@ -53,7 +57,7 @@ class MyPage extends React.Component {
 
                     <div className="form-group ant-avatar-group">
                         <img id='avatar_show' src='' alt='avatar' />
-                        <input type="file" id="avatar" />
+                        <input type="file" id="avatar" name='avatar' />
                         <p>Click me to modify</p>
                     </div>
 
