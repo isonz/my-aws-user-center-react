@@ -15,6 +15,5 @@ export function myUpdate(data) {
         headers: { ...authHeader(), 'Content-Type': 'application/json' },
         body: JSON.stringify(data)
     };
-    console.log(requestOptions);
     return fetch(`${process.env.REACT_APP_API_HOST}${process.env.REACT_APP_API_MY_ACTION}`, requestOptions).then(handleResponse);
 }

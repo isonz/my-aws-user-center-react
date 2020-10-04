@@ -27,7 +27,7 @@ export function myReducer(state = {}, action) {
       // };
       return {
         updating: true,
-        item: action.users
+        item: action.item
       };
     case myConstants.UPDATE_SUCCESS:
       // remove deleted user from state

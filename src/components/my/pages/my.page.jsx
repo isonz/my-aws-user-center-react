@@ -56,7 +56,7 @@ class MyPage extends React.Component {
                 <form>
 
                     <div className="form-group ant-avatar-group">
-                        <img id='avatar_show' src='' alt='avatar' />
+                        <img id='avatar_show' src={item?.avatar || '/images/avatar_default.jpg'} alt='avatar' />
                         <input type="file" id="avatar" name='avatar' />
                         <p>Click me to modify</p>
                     </div>
