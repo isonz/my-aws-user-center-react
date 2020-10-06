@@ -32,6 +32,10 @@
     opacity: 0;
 }
 
+img:focus {
+    outline: none;
+}
+
 @media screen and (max-width: 500px) {
 
 }

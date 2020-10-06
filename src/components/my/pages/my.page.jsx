@@ -3,8 +3,11 @@ import './my.page.css';
 import {getLocalUser} from "../../../helpers/local";
 import {MyActions} from "../my.action";
 import {connect} from "react-redux";
-import { LoadingOutlined, PlusOutlined } from '@ant-design/icons';
+import { authHeader } from '../../../helpers/auth-header';
 
+
+import { Upload, message } from 'antd';
+import { LoadingOutlined, PlusOutlined } from '@ant-design/icons';
 
 function getBase64(img, callback) {
     const reader = new FileReader();
@@ -24,6 +27,7 @@ function beforeUpload(file) {
     return isJpgOrPng && isLt2M;
 }
 
+
 class MyPage extends React.Component {
 
     constructor(props) {
@@ -42,27 +46,39 @@ class MyPage extends React.Component {
         this.props.myInfo();
     }
 
+    handleUploadChange = info => {
+        if (info.file.status === 'uploading') {
+            this.setState({ loading: true });
+            return;
+        }
+        if (info.file.status === 'done') {
+            const response = info.file.response;
+            this.props.item.avatar = response.url;
+            this.setState({
+                avatar: response.url,
+            });
+            //console.log(this.props.item);
+            this.props.myUpdate(this.props.item);
+
+            // getBase64(info.file.originFileObj, imageUrl =>
+            //     //console.log(imageUrl),
+            //     this.setState({
+            //         loading: false,
+            //     }),
+            // );
+        }
+    };
+
     onChangeHandle(e) {
         const { name, value } = e.target;
         this.setState({ [name]: value });
         if('email' === name){
             this.props.item.email = value;
         }
-
-        if (info.file.status === 'uploading') {
+        if('avatar' === name){
             this.setState({ loading: true });
-            return;
         }
-        if (info.file.status === 'done') {
-            // Get this url from response in real world.
-            getBase64(info.file.originFileObj, imageUrl =>
-                this.setState({
-                    imageUrl,
-                    loading: false,
-                }),
-            );
-        }
-
+        // console.log(this.props.item);
     }
 
     onBlurHandle(e) {
@@ -74,7 +90,6 @@ class MyPage extends React.Component {
 
     render() {
         const { alertMsg, alertType, loading, item, updating } = this.props;
-
         const uploadButton = (
             <div>
                 {loading ? <LoadingOutlined /> : <PlusOutlined />}
@@ -94,8 +109,20 @@ class MyPage extends React.Component {
 
 
                 <div className="form-group ant-avatar-group">
-                    <img id='avatar_show' src={item?.avatar || '/images/avatar_default.jpg'} alt='avatar' />
-                    <input type="file" id="avatar" name='avatar' onChange={this.onChangeHandle} ref={this.fileInput} />
+                    {/*<input type="file" id="avatar" name='avatar' onChange={this.onChangeHandle} ref={this.fileInput} />*/}
+                    <Upload
+                        name="avatar"
+                        listType="picture-card"
+                        className="avatar-uploader"
+                        action={process.env.REACT_APP_API_HOST + process.env.REACT_APP_API_UPLOAD_ACTION}
+                        headers={authHeader()}
+                        showUploadList={false}
+                        beforeUpload={beforeUpload}
+                        onChange={this.handleUploadChange}
+                    >
+                        {/*{item?.avatar ? <img src={item?.avatar || '/images/avatar_default.jpg'} alt="avatar" id='avatar_show' /> : uploadButton}*/}
+                        <img src={this.state.avatar || item?.avatar || '/images/avatar_default.jpg'} alt="avatar" id='avatar_show' />
+                    </Upload>
                     <p>Click me to modify</p>
                 </div>
 
