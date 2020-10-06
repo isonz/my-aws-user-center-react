@@ -55,7 +55,7 @@ class MyPage extends React.Component {
             const response = info.file.response;
             this.props.item.avatar = response.url;
             this.setState({
-                avatar: response.url,
+                avatar: response.Location,
             });
             //console.log(this.props.item);
             this.props.myUpdate(this.props.item);
