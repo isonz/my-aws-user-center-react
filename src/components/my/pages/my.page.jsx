@@ -9,11 +9,11 @@ import { authHeader } from '../../../helpers/auth-header';
 import { Upload, message } from 'antd';
 import { LoadingOutlined, PlusOutlined } from '@ant-design/icons';
 
-function getBase64(img, callback) {
-    const reader = new FileReader();
-    reader.addEventListener('load', () => callback(reader.result));
-    reader.readAsDataURL(img);
-}
+// function getBase64(img, callback) {
+//     const reader = new FileReader();
+//     reader.addEventListener('load', () => callback(reader.result));
+//     reader.readAsDataURL(img);
+// }
 
 function beforeUpload(file) {
     const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
@@ -90,12 +90,12 @@ class MyPage extends React.Component {
 
     render() {
         const { alertMsg, alertType, loading, item, updating } = this.props;
-        const uploadButton = (
-            <div>
-                {loading ? <LoadingOutlined /> : <PlusOutlined />}
-                <div style={{ marginTop: 8 }}>Upload</div>
-            </div>
-        );
+        // const uploadButton = (
+        //     <div>
+        //         {loading ? <LoadingOutlined /> : <PlusOutlined />}
+        //         <div style={{ marginTop: 8 }}>Upload</div>
+        //     </div>
+        // );
 
         return (
             <div className='my-page'>
