@@ -20,11 +20,11 @@ function beforeUpload(file) {
     if (!isJpgOrPng) {
         message.error('You can only upload JPG/PNG file!');
     }
-    const isLt2M = file.size / 1024 / 1024 < 2;
-    if (!isLt2M) {
-        message.error('Image must smaller than 2MB!');
+    const isLt5M = file.size / 1024 / 1024 < 5;
+    if (!isLt5M) {
+        message.error('Image must smaller than 5MB!');
     }
-    return isJpgOrPng && isLt2M;
+    return isJpgOrPng && isLt5M;
 }
 
 
@@ -53,9 +53,9 @@ class MyPage extends React.Component {
         }
         if (info.file.status === 'done') {
             const response = info.file.response;
-            this.props.item.avatar = response.url;
+            this.props.item.avatar = response.Location;
             this.setState({
-                avatar: response.Location,
+                avatar: response.Location + '?' + Date.now(),
             });
             //console.log(this.props.item);
             this.props.myUpdate(this.props.item);
