@@ -7,6 +7,9 @@ export function handleResponse(response) {
                 this.logout();
                 window.location.reload(true);
             }
+            if (response.status === 403) {
+                return Promise.reject('403: You are not authorized to view this page.');
+            }
             const error = (data && data.message) || response.statusText;
             return Promise.reject(error);
         }
